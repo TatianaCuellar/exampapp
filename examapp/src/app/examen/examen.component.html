@@ -1,0 +1,23 @@
+<div class="container">
+  <form [formGroup]="data">
+    <div *ngFor="let pregunta of preguntas">
+      <h5 class="text-center">{{pregunta?.descripcion}}</h5>
+      <h4>{{pregunta?.materia}}</h4>
+      <div *ngFor="let preg of pregunta?.grupo">
+        <p>{{preg?.title}}</p>
+        <label class="radio-inline" *ngFor="let res of preg?.respuestas">
+          <input type="radio" name="respuesta" [value]="res?.id">{{res?.title}}
+        </label>
+      </div>
+    </div>
+    <ul class="content-button">
+      <li>
+        <a class="button">Atras</a>
+      </li>
+      <li>
+        <a class="button">Siguiente</a>
+      </li>
+    </ul>
+    <input type="submit" class="button ml-auto mb-4" value="Enviar" *ngIf="buttonSubmit">
+  </form>
+</div>
