@@ -5,7 +5,7 @@ a {
   cursor: pointer;
   text-decoration: none;
 }
-.button {
+.button, input[type="submit"] {
   background: $primary-color;
   color: white;
   padding: 15px 4rem;
@@ -24,4 +24,29 @@ a {
 h1, h2, h3, h4 {
   color: $primary-color;
   font-weight: bold;
+}
+.content-form {
+  input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid $primary-color;
+    padding: 10px;
+    outline: none;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+ul {
+  padding: 0;
+}
+
+.hyperlink {
+  display: flex;
+  justify-content: center;
+  color: black;
+  :hover {
+    color: $primary-color;
+  }
 }

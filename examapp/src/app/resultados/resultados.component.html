@@ -1,0 +1,27 @@
+<div class="content-buscar" *ngIf="isBusqueda; else buscando">
+  <div class="container">
+    <h1>Consulta de resultados</h1>
+    <p>Ingresa tu correo eléctronico para validar el exámen</p>
+    <form [formGroup]="dataResultado" class="content-form">
+      <input type="text" formControlName="email" placeholder="E-mail">
+      <a class="button mt-3 w-100" (click)="buscar()">Buscar</a>
+    </form>
+  </div>
+</div>
+<ng-template #buscando>
+  <div class="container">
+    <div class="card-certicacion">
+      <img src="assets/img/LOGO.png" alt="" width="250" class="m-auto">
+      <span class="title mb-5">CERTIFICACIÓN DE SUFICIENCIA</span>
+      <p class="descirption">La aplicación examapp le otorga esta certificación a:</p>
+      <span class="name">Nombre y apellido</span>
+      <p class="description-two">Por realizar y aprobar el examen satisfactoriamente,
+      por medio de la aplicación <strong>Examapp</strong></p>
+      <span class="firma">
+        <img src="assets/img/firma.svg" alt="" width="130" class="m-auto mt-5 mb-3">
+        <hr>
+        <span class="nombre"><strong>Directora general: </strong>Katerin Tatiana Cuellar Pardo</span>
+      </span>
+    </div>
+  </div>
+</ng-template>
