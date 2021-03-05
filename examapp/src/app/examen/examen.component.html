@@ -8,19 +8,11 @@
         <img [src]="preg?.asset" class="mb-3" *ngIf="preg?.asset">
         <div class="respuesta">
           <label class="radio-inline" *ngFor="let res of preg?.respuestas">
-            <input type="radio" name="respuesta{{i}}" (change)="sumaPuntaje(res)" [value]="res?.id">{{res?.title}}
+            <input type="radio" name="respuesta{{i}}" (change)="sumaPuntaje(res, i + 1)" [value]="res?.id">{{res?.title}}
           </label>
         </div>
       </div>
     </div>
-    <ul class="content-button">
-      <li>
-        <a class="button" *ngIf="preguntas.length < 1">Atras</a>
-      </li>
-      <li>
-        <a class="button">Siguiente</a>
-      </li>
-    </ul>
     <a class="button" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="saveResponse()"
        *ngIf="!buttonSubmit">Guardar Resultados</a>
   </div>
@@ -37,7 +29,7 @@
               <input type="text" formControlName="nombre" placeholder="Nombre">
               <input type="text" formControlName="apellido" placeholder="Apellido">
               <input type="text" formControlName="email" placeholder="Email">
-              <input type="submit" value="Enviar" class="mt-3 justify-content-center" (click)="saveExamen()"
+              <input type="submit" value="Enviar" class="mt-3 justify-content-center" [disabled]="data.invalid" (click)="saveExamen()"
                      data-bs-dismiss="modal"  data-bs-toggle="modal" data-bs-target="#thankyouModal" >
             </div>
           </div>
@@ -64,8 +56,13 @@
               </p>
             </ng-template>
 
-            <a class="button" *ngIf="!isResult" data-bs-dismiss="modal" >Ver certificado</a>
-            <a class="text-center hyperlink" [routerLink]="['/']" data-bs-dismiss="modal" >Volver al inicio</a>
+            <p class="text-center"> Guarda este código, por si quieres volver a consultar tus resultados </p>
+            <p class="text-center"><strong>{{codigo}}</strong></p>
+
+            <div class="content-buttons mt-4 mb-4">
+              <a class="button w-100 justify-content-center" *ngIf="!isResult" [routerLink]="['/resultados']" [queryParams]="{id: codigo}" data-bs-dismiss="modal" >Ver certificado</a>
+              <a class="text-center hyperlink" [routerLink]="['/']" data-bs-dismiss="modal" >Volver al inicio</a>
+            </div>
           </div>
         </div>
       </div>

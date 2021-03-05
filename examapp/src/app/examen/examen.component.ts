@@ -10,8 +10,9 @@ import {Router} from '@angular/router';
 })
 export class ExamenComponent implements OnInit {
 
+  codigo: string;
   responseSelected = [];
-  resultPuntaje: number;
+  resultPuntaje: number = 0;
   isResult = false;
   data: FormGroup;
   preguntas = [
@@ -189,8 +190,6 @@ export class ExamenComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.preguntas);
-    this.getExamen();
   }
 
   addQuestions() {
@@ -199,23 +198,10 @@ export class ExamenComponent implements OnInit {
     }
   }
 
-  nextPage() {
-
-  }
-
-  getExamen() {
-    this.firebaseService.getExamens().subscribe(response => {
-      this.dataPreguntas = response.map((e: any) => {
-        console.log(e.payload.doc.data());
-      });
-    }, error => {
-      console.error(error);
-    });
-  }
-
   saveExamen() {
-    console.log('jsj');
-    this.firebaseService.createExamen(this.data.value);
+    this.firebaseService.createExamen(this.data.value).then(resp => {
+      this.codigo = resp.id;
+    });
     //this.router.navigate(['/']);
     this.data.markAllAsTouched();
   }
@@ -237,11 +223,20 @@ export class ExamenComponent implements OnInit {
     });
   }
 
-  sumaPuntaje(puntaje) {
-    this.responseSelected.push(puntaje);
-    this.resultPuntaje = 0;
-    for (let resp of this.responseSelected) {
-      this.resultPuntaje = this.resultPuntaje + resp.puntaje;
+  sumaPuntaje(response, question) {
+    if (this.responseSelected.find(x => x.pregunta === question)) {
+      this.responseSelected.map(respon => {
+        respon.respuesta = response;
+      });
+    } else {
+      this.responseSelected.push({
+        pregunta: question,
+        respuesta: response
+      });
     }
+    for (let resp of this.responseSelected) {
+      this.resultPuntaje = this.resultPuntaje + resp.respuesta.puntaje;
+    }
+    console.log(this.resultPuntaje);
   }
 }

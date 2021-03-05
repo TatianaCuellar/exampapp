@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FirebaseService} from '../services/firebase.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-resultados',
@@ -14,13 +15,26 @@ export class ResultadosComponent implements OnInit {
   isProblem = false;
   codResultado = new FormControl('', [Validators.required, Validators.minLength(20)]);
   dataResults;
+  idExamen;
 
   constructor(
+    private route: ActivatedRoute,
     private firebaseService: FirebaseService,
   ) {
+    this.route.queryParams
+      .subscribe(params => {
+        const id = 'id';
+        this.idExamen = params[id];
+        if (this.idExamen) {
+          this.codResultado.patchValue(this.idExamen);
+          this.buscar();
+          console.log(this.codResultado.value);
+        }
+      });
   }
 
   ngOnInit() {
+
   }
 
 
