@@ -19,6 +19,13 @@ a {
   &:hover {
     background: $secundary-color;
   }
+  &:disabled {
+    opacity: .2;
+
+    &:hover {
+      background: $primary-color;
+    }
+  }
 }
 
 h1, h2, h3, h4 {
@@ -45,8 +52,13 @@ ul {
 .hyperlink {
   display: flex;
   justify-content: center;
-  color: black;
+  color: $primary-color;
+  text-decoration: underline;
   :hover {
-    color: $primary-color;
+    color: $secundary-color;
   }
+}
+
+.errors {
+  color: red;
 }

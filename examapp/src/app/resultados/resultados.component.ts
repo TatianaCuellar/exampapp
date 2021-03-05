@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {FirebaseService} from '../services/firebase.service';
 
 @Component({
@@ -9,8 +9,11 @@ import {FirebaseService} from '../services/firebase.service';
 })
 export class ResultadosComponent implements OnInit {
 
+  isCertificated: boolean;
   isBusqueda = true;
-  dataResultado: FormGroup;
+  isProblem = false;
+  codResultado = new FormControl('', [Validators.required, Validators.minLength(20)]);
+  dataResults;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -18,17 +21,25 @@ export class ResultadosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getExamenForId('tatianacuellar9923@gmail.com');
   }
 
-  getExamenForId(email) {
-    this.firebaseService.getExamenForId(email).subscribe(data => {
-      console.log(data);
-    });
-  }
 
   buscar() {
-    this.isBusqueda = false;
+    const notaMinima = 4;
+    if (this.codResultado.valid) {
+      this.firebaseService.getExamenForId(this.codResultado.value).subscribe(data => {
+        if (data !== null) {
+          this.dataResults = data;
+          this.isCertificated = this.dataResults.resultado >= notaMinima;
+          this.isBusqueda = false;
+        } else {
+          this.isProblem = true;
+        }
+
+      });
+    } else {
+      this.codResultado.markAllAsTouched();
+    }
   }
 
 }
