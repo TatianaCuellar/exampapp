@@ -19,3 +19,10 @@
     }
   }
 }
+
+img {
+  @media (max-width: 768px) {
+    display: flex;
+    margin: auto;
+  }
+}
